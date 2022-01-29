@@ -27,13 +27,18 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
+            RotateThrust(-Vector3.forward);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(-Vector3.forward * rotationThrust * Time.deltaTime);
+            RotateThrust(Vector3.forward);
         }
+    }
+
+    private void RotateThrust(Vector3 vector)
+    {
+        transform.Rotate(vector * rotationThrust * Time.deltaTime);
     }
 
     void ProcessThrust()
