@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    private Rigidbody _rigidbody;
+
     // Start is called before the first frame update
     void Start()
     {
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -20,12 +23,12 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log("Pressed A - Rotating Left");
+            _rigidbody.AddRelativeForce(- 1, 0, 0);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("Pressed D - Rotating Right");
+            _rigidbody.AddRelativeForce(1, 0, 0);
         }
     }
 
@@ -33,7 +36,8 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("Pressed SPACE - Thrusting");
+            _rigidbody.AddRelativeForce(0, 10, 0);
+            Debug.Log("Space button Hit");
         }
     }
 }
