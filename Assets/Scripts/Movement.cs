@@ -5,10 +5,10 @@ using UnityEngine.Serialization;
 
 public class Movement : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
+    Rigidbody _rigidbody;
+    [SerializeField] float rotationThrust;
 
-    [FormerlySerializedAs("thrustSpeedEqualizer")] [SerializeField]
-    private float thrustVelocity;
+    [SerializeField] float mainThrust;
 
     // Start is called before the first frame update
     void Start()
@@ -27,12 +27,12 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            _rigidbody.AddRelativeForce(-1, 0, 0);
+            transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            _rigidbody.AddRelativeForce(1, 0, 0);
+            transform.Rotate(-Vector3.forward * rotationThrust * Time.deltaTime);
         }
     }
 
@@ -40,7 +40,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            _rigidbody.AddRelativeForce(Vector3.up * thrustVelocity * Time.deltaTime);
+            _rigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
         }
     }
 }
