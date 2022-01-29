@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Movement : MonoBehaviour
 {
     private Rigidbody _rigidbody;
+
+    [FormerlySerializedAs("thrustSpeedEqualizer")] [SerializeField]
+    private float thrustVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +27,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            _rigidbody.AddRelativeForce(- 1, 0, 0);
+            _rigidbody.AddRelativeForce(-1, 0, 0);
         }
 
         else if (Input.GetKey(KeyCode.D))
@@ -36,8 +40,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            _rigidbody.AddRelativeForce(0, 10, 0);
-            Debug.Log("Space button Hit");
+            _rigidbody.AddRelativeForce(Vector3.up * thrustVelocity * Time.deltaTime);
         }
     }
 }
