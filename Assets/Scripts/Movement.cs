@@ -27,18 +27,20 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            RotateThrust(-Vector3.forward);
+            RotateThrust(-rotationThrust);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            RotateThrust(Vector3.forward);
+            RotateThrust(rotationThrust);
         }
     }
 
-    private void RotateThrust(Vector3 vector)
+    private void RotateThrust(float rotationThrust)
     {
-        transform.Rotate(vector * rotationThrust * Time.deltaTime);
+        _rigidbody.freezeRotation = true;
+        transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
+        _rigidbody.freezeRotation = false;
     }
 
     void ProcessThrust()
