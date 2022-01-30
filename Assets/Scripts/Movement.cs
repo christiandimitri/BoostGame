@@ -5,11 +5,18 @@ using UnityEngine.Serialization;
 
 public class Movement : MonoBehaviour
 {
+    // PARAMETERS - for tuning, typically set in the editor
+
+    // CACHE - e.g references for readability of speed
+
+    // STATE - private instance (member variables)
+
     Rigidbody _rigidbody;
     private AudioSource _audioSource;
-    [SerializeField] float rotationThrust;
 
+    [SerializeField] float rotationThrust;
     [SerializeField] float mainThrust;
+    [SerializeField] AudioClip mainEngine;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +57,7 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             _rigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
-            if (!_audioSource.isPlaying) _audioSource.Play();
+            if (!_audioSource.isPlaying) _audioSource.PlayOneShot(mainEngine);
             else _audioSource.Stop();
         }
     }
