@@ -9,9 +9,11 @@ namespace DefaultNamespace
         [SerializeField] private float levelLoadDelay = 0f;
         [SerializeField] AudioClip crash;
         [SerializeField] AudioClip success;
-
+        [SerializeField] ParticleSystem crashParticles;
+        [SerializeField] ParticleSystem successParticles;
 
         AudioSource _audioSource;
+
 
         private bool isTransitioning = false;
 
@@ -46,6 +48,7 @@ namespace DefaultNamespace
             isTransitioning = true;
             _audioSource.Stop();
             _audioSource.PlayOneShot(success);
+            successParticles.Play();
             GetComponent<Movement>().enabled = false;
             Invoke("NextLevel", levelLoadDelay);
         }
@@ -57,6 +60,7 @@ namespace DefaultNamespace
             _audioSource.Stop();
             _audioSource.PlayOneShot(crash);
             // todo add particle effect upon crash
+            crashParticles.Play();
             GetComponent<Movement>().enabled = false;
             Invoke(nameof(ReloadLevel), levelLoadDelay);
         }
