@@ -15,16 +15,28 @@ namespace DefaultNamespace
         AudioSource _audioSource;
 
 
-        private bool isTransitioning = false;
+        bool isTransitioning = false;
+        bool collisionDisabled = false;
 
         void Start()
         {
             _audioSource = GetComponent<AudioSource>();
         }
 
+        void Update()
+        {
+            RespondToDebugKeys();
+        }
+
+        void RespondToDebugKeys()
+        {
+            if (Input.GetKeyDown(KeyCode.L)) LoadNextLevel();
+            else if (Input.GetKeyDown(KeyCode.C)) collisionDisabled = !collisionDisabled;
+        }
+
         void OnCollisionEnter(Collision collision)
         {
-            if (isTransitioning) return;
+            if (isTransitioning || collisionDisabled) return;
             switch (collision.gameObject.tag)
             {
                 case "Fuel":
@@ -50,7 +62,7 @@ namespace DefaultNamespace
             _audioSource.PlayOneShot(success);
             successParticles.Play();
             GetComponent<Movement>().enabled = false;
-            Invoke("NextLevel", levelLoadDelay);
+            Invoke("LoadNextLevel", levelLoadDelay);
         }
 
         void StartCrashSequence()
@@ -65,7 +77,7 @@ namespace DefaultNamespace
             Invoke(nameof(ReloadLevel), levelLoadDelay);
         }
 
-        void NextLevel()
+        void LoadNextLevel()
         {
             var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             var nextSceneIndex = currentSceneIndex + 1;
