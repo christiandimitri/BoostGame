@@ -13,6 +13,8 @@ namespace DefaultNamespace
 
         AudioSource _audioSource;
 
+        private bool isTransitioning = false;
+
         void Start()
         {
             _audioSource = GetComponent<AudioSource>();
@@ -41,6 +43,7 @@ namespace DefaultNamespace
         void StartSuccessSequence()
         {
             if (!_audioSource.isPlaying) _audioSource.PlayOneShot(success);
+            else _audioSource.Stop();
             GetComponent<Movement>().enabled = false;
             Invoke("NextLevel", levelLoadDelay);
         }
@@ -49,6 +52,7 @@ namespace DefaultNamespace
         {
             // todo add SFX upon crash
             if (!_audioSource.isPlaying) _audioSource.PlayOneShot(crash);
+            else _audioSource.Stop();
             // todo add particle effect upon crash
             GetComponent<Movement>().enabled = false;
             Invoke(nameof(ReloadLevel), levelLoadDelay);
