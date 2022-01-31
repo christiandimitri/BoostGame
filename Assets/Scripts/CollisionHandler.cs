@@ -22,6 +22,7 @@ namespace DefaultNamespace
 
         void OnCollisionEnter(Collision collision)
         {
+            if (isTransitioning) return;
             switch (collision.gameObject.tag)
             {
                 case "Fuel":
@@ -42,17 +43,19 @@ namespace DefaultNamespace
 
         void StartSuccessSequence()
         {
-            if (!_audioSource.isPlaying) _audioSource.PlayOneShot(success);
-            else _audioSource.Stop();
+            isTransitioning = true;
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(success);
             GetComponent<Movement>().enabled = false;
             Invoke("NextLevel", levelLoadDelay);
         }
 
         void StartCrashSequence()
         {
+            isTransitioning = true;
             // todo add SFX upon crash
-            if (!_audioSource.isPlaying) _audioSource.PlayOneShot(crash);
-            else _audioSource.Stop();
+            _audioSource.Stop();
+            _audioSource.PlayOneShot(crash);
             // todo add particle effect upon crash
             GetComponent<Movement>().enabled = false;
             Invoke(nameof(ReloadLevel), levelLoadDelay);
