@@ -69,14 +69,18 @@ public class Movement : MonoBehaviour
             _rigidbody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
             if (!_audioSource.isPlaying)
             {
-                mainBooster.Play();
                 _audioSource.PlayOneShot(mainEngine);
             }
-            else
+
+            if (!mainBooster.isPlaying)
             {
-                mainBooster.Stop();
-                _audioSource.Stop();
+                mainBooster.Play();
             }
+        }
+        else
+        {
+            mainBooster.Stop();
+            _audioSource.Stop();
         }
     }
 }
