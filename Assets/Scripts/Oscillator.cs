@@ -18,6 +18,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
+            if (period <= Mathf.Epsilon) return;
             float cycles = Time.time / period;
 
             const float tau = Mathf.PI * 2;
